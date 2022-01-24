@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface KnowledgeEndpoint {
 
-    void create(CreateKnowledgeDTO createKnowledge);
+    KnowledgeDTO create(CreateKnowledgeDTO createKnowledge);
     List<KnowledgeDTO> findAll();
 
 }

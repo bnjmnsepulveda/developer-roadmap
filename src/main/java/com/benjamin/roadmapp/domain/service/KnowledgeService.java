@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface KnowledgeService {
 
-    void create(Knowledge knowledge);
+    Knowledge create(Knowledge knowledge);
     Knowledge findById(String id);
     List<Knowledge> findAll();
 
