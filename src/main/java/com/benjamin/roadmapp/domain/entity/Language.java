@@ -8,6 +8,4 @@ import java.util.List;
 public class Language {
     private String name;
     private List<String> properties;
-    private List<LearningResource> learningResources;
-    private List<Framework> availableFrameworks;
 }
