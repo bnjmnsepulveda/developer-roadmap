@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface LanguageEndpoint {
 
-    void create(CreateLanguageDTO language);
+    LanguageDTO create(CreateLanguageDTO language);
     List<LanguageDTO> findAll();
 
 }

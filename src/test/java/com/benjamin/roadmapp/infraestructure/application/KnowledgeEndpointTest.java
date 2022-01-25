@@ -3,23 +3,16 @@ package com.benjamin.roadmapp.infraestructure.application;
 import com.benjamin.roadmapp.application.dto.CreateKnowledgeDTO;
 import com.benjamin.roadmapp.domain.entity.Knowledge;
 import com.benjamin.roadmapp.domain.service.KnowledgeService;
-import lombok.extern.log4j.Log4j2;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
+import com.benjamin.roadmapp.utils.UnitTestBase;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-@Log4j2
-@ExtendWith(MockitoExtension.class)
-class KnowledgeEndpointTest {
+class KnowledgeEndpointTest extends UnitTestBase {
 
     @Mock
     KnowledgeService service;
@@ -27,7 +20,6 @@ class KnowledgeEndpointTest {
 
     @Test
     void createTest() {
-
         when(service.create(Mockito.any()))
                 .thenReturn(buildKnowledge("1","java"));
 

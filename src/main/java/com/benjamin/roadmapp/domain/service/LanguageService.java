@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface LanguageService {
 
-    void create(Language language);
+    Language create(Language language);
     Language findById(String id);
     List<Language> findAll();
 
