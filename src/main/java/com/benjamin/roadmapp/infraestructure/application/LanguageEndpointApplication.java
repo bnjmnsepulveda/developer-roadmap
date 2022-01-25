@@ -30,10 +30,7 @@ public class LanguageEndpointApplication implements LanguageEndpoint {
                 .id(uuid)
                 .build();
         var entity = service.create(newLanguage);
-        return LanguageDTO.builder()
-                .id(entity.getId())
-                .name(entity.getName())
-                .build();
+        return LanguageDTO.map(entity);
 
     }
 
@@ -42,10 +39,7 @@ public class LanguageEndpointApplication implements LanguageEndpoint {
         return service
                 .findAll()
                 .stream()
-                .map(l -> LanguageDTO.builder()
-                        .id(l.getId())
-                        .name(l.getName())
-                .build())
+                .map(LanguageDTO::map)
                 .collect(Collectors.toList());
     }
 }

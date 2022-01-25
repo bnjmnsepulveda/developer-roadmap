@@ -26,10 +26,7 @@ public class KnowledgeEndpointApplication implements KnowledgeEndpoint {
                 .name(createKnowledge.getName())
                 .build();
         var entity = service.create(newEntity);
-        return KnowledgeDTO.builder()
-                .name(entity.getName())
-                .id(entity.getId())
-                .build();
+        return KnowledgeDTO.map(entity);
     }
 
     @Override
@@ -37,10 +34,7 @@ public class KnowledgeEndpointApplication implements KnowledgeEndpoint {
         return service
                 .findAll()
                 .stream()
-                .map(k -> KnowledgeDTO.builder()
-                        .id(k.getId())
-                        .name(k.getName())
-                        .build())
+                .map(KnowledgeDTO::map)
                 .collect(Collectors.toList());
     }
 }
