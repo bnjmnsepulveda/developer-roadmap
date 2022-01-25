@@ -8,6 +8,7 @@ public interface LanguageService {
 
     Language create(Language language);
     Language findById(String id);
+    List<Language> findByIds(List<String> id);
     List<Language> findAll();
 
 }

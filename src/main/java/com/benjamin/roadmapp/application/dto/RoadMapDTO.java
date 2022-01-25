@@ -30,7 +30,7 @@ public class RoadMapDTO {
                 .build();
     }
 
-    protected static List<KnowledgeDTO> mapToKnowledge(List<Knowledge> list) {
+    public static List<KnowledgeDTO> mapToKnowledge(List<Knowledge> list) {
         if (list == null) {
             return Collections.emptyList();
         }
@@ -39,7 +39,7 @@ public class RoadMapDTO {
                 .collect(Collectors.toList());
     }
 
-    protected static List<LanguageDTO> mapToLanguages(List<Language> list) {
+    public static List<LanguageDTO> mapToLanguages(List<Language> list) {
         if (list == null) {
             return Collections.emptyList();
         }

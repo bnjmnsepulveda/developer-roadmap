@@ -3,9 +3,13 @@ package com.benjamin.roadmapp.infraestructure.application;
 import com.benjamin.roadmapp.application.RoadMapEndpoint;
 import com.benjamin.roadmapp.application.dto.CreateRoadMapDTO;
 import com.benjamin.roadmapp.application.dto.RoadMapDTO;
+import com.benjamin.roadmapp.application.dto.RoadMapKnowledgeUpdatedDTO;
+import com.benjamin.roadmapp.application.dto.RoadMapLanguageUpdatedDTO;
 import com.benjamin.roadmapp.domain.entity.RoadMap;
+import com.benjamin.roadmapp.domain.service.KnowledgeService;
+import com.benjamin.roadmapp.domain.service.LanguageService;
 import com.benjamin.roadmapp.domain.service.RoadMapService;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +18,15 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@Builder
 public class RoadMapEndpointApplication implements RoadMapEndpoint {
 
     @Autowired
-    private RoadMapService service;
+    private RoadMapService roadMapService;
+    @Autowired
+    private KnowledgeService knowledgeService;
+    @Autowired
+    private LanguageService languageService;
 
     @Override
     public RoadMapDTO create(CreateRoadMapDTO createRoadMapDTO) {
@@ -28,28 +36,42 @@ public class RoadMapEndpointApplication implements RoadMapEndpoint {
                 .name(createRoadMapDTO.getName())
                 .description(createRoadMapDTO.getDescription())
                 .build();
-        var entity = service.create(newRoadmap);
+        var entity = roadMapService.create(newRoadmap);
         return RoadMapDTO.map(entity);
     }
 
     @Override
     public List<RoadMapDTO> findAll() {
-        return service.findAll()
+        return roadMapService.findAll()
                 .stream()
                 .map(RoadMapDTO::map)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void updateKnowledge(String id, List<String> knowledgeIds) {
-        var entityFound = service.findById(id);
-
-
+    public RoadMapKnowledgeUpdatedDTO updateKnowledge(String id, List<String> knowledgeIds) {
+        var entityFound = roadMapService.findById(id);
+        entityFound.setKnowledgeToDomain(knowledgeService.findByIds(knowledgeIds));
+        var entityUpdated = roadMapService.update(entityFound);
+        return RoadMapKnowledgeUpdatedDTO
+                .builder()
+                .id(entityUpdated.getId())
+                .roadMapName(entityUpdated.getName())
+                .knowledge(RoadMapDTO.mapToKnowledge(entityUpdated.getKnowledgeToDomain()))
+                .build();
     }
 
     @Override
-    public void updateLanguage(String id, List<String> languageIds) {
-
+    public RoadMapLanguageUpdatedDTO updateLanguage(String id, List<String> languageIds) {
+        var entityFound = roadMapService.findById(id);
+        entityFound.setLanguagesToDomain(languageService.findByIds(languageIds));
+        var entityUpdated = roadMapService.update(entityFound);
+        return RoadMapLanguageUpdatedDTO
+                .builder()
+                .id(entityUpdated.getId())
+                .roadMapName(entityUpdated.getName())
+                .languages(RoadMapDTO.mapToLanguages(entityUpdated.getLanguagesToDomain()))
+                .build();
     }
 
 }

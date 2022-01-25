@@ -9,6 +9,6 @@ public interface RoadMapService {
     RoadMap create(RoadMap roadMap);
     RoadMap findById(String id);
     List<RoadMap> findAll();
-    void update(RoadMap roadMap);
+    RoadMap update(RoadMap roadMap);
 
 }

@@ -9,5 +9,6 @@ public interface KnowledgeService {
     Knowledge create(Knowledge knowledge);
     Knowledge findById(String id);
     List<Knowledge> findAll();
+    List<Knowledge> findByIds(List<String> ids);
 
 }
