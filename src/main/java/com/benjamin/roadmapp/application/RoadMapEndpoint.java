@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface RoadMapEndpoint {
 
-    void create(CreateRoadMapDTO roadMap);
+    RoadMapDTO create(CreateRoadMapDTO roadMap);
     List<RoadMapDTO> findAll();
-    void updateKnowledge(List<String> knowledgeIds);
-    void updateLanguage(List<String> languageIds);
+    void updateKnowledge(String id, List<String> knowledgeIds);
+    void updateLanguage(String id, List<String> languageIds);
 
 }
