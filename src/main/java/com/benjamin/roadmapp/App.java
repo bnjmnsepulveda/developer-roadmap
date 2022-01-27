@@ -1,7 +1,9 @@
 package com.benjamin.roadmapp;
 
+import com.benjamin.roadmapp.domain.entity.Knowledge;
 import com.benjamin.roadmapp.domain.entity.Language;
 import com.benjamin.roadmapp.domain.ports.outgoing.GenerateUniqueID;
+import com.benjamin.roadmapp.domain.ports.outgoing.KnowledgeRepository;
 import com.benjamin.roadmapp.domain.ports.outgoing.LanguageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -18,6 +20,8 @@ public class App {
     LanguageRepository languageRepository;
     @Autowired
     GenerateUniqueID generateUniqueID;
+    @Autowired
+    KnowledgeRepository knowledgeRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);
@@ -33,6 +37,15 @@ public class App {
                 )
                 .stream()
                 .forEach(languageRepository::save);
+
+        Arrays
+                .asList(
+                        build("http"),
+                        build("linux"),
+                        build("git")
+                )
+                .stream()
+                .forEach(knowledgeRepository::save);
     }
 
     Language build(String name, String... properties) {
@@ -40,6 +53,13 @@ public class App {
                 .id(generateUniqueID.handle())
                 .name(name)
                 .properties(Arrays.asList(properties))
+                .build();
+    }
+
+    Knowledge build(String name) {
+        return Knowledge.builder()
+                .id(generateUniqueID.handle())
+                .name(name)
                 .build();
     }
 

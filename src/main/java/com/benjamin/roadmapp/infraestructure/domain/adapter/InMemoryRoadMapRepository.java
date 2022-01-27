@@ -21,7 +21,7 @@ public class InMemoryRoadMapRepository implements RoadMapRepository {
 
     @Override
     public Optional<RoadMap> findById(String id) {
-        return Optional.of(data.get(id));
+        return Optional.ofNullable(data.get(id));
     }
 
     @Override
