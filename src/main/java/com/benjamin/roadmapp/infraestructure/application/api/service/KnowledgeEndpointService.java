@@ -1,7 +1,7 @@
 package com.benjamin.roadmapp.infraestructure.application.api.service;
 
-import com.benjamin.roadmapp.application.AddKnowledge;
-import com.benjamin.roadmapp.application.FindKnowledge;
+import com.benjamin.roadmapp.application.api.AddKnowledge;
+import com.benjamin.roadmapp.application.api.FindKnowledge;
 import com.benjamin.roadmapp.application.dto.CreateKnowledgeDTO;
 import com.benjamin.roadmapp.application.dto.KnowledgeDTO;
 import com.benjamin.roadmapp.domain.entity.Knowledge;

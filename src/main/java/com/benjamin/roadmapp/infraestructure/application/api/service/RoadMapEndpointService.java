@@ -1,9 +1,9 @@
 package com.benjamin.roadmapp.infraestructure.application.api.service;
 
-import com.benjamin.roadmapp.application.AddRoadMap;
-import com.benjamin.roadmapp.application.FindRoadMap;
-import com.benjamin.roadmapp.application.UpdateRoadMapKnowledge;
-import com.benjamin.roadmapp.application.UpdateRoadMapLanguage;
+import com.benjamin.roadmapp.application.api.AddRoadMap;
+import com.benjamin.roadmapp.application.api.FindRoadMap;
+import com.benjamin.roadmapp.application.api.UpdateRoadMapKnowledge;
+import com.benjamin.roadmapp.application.api.UpdateRoadMapLanguage;
 import com.benjamin.roadmapp.application.dto.CreateRoadMapDTO;
 import com.benjamin.roadmapp.application.dto.RoadMapDTO;
 import com.benjamin.roadmapp.application.dto.RoadMapKnowledgeUpdatedDTO;

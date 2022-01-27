@@ -1,4 +1,4 @@
-package com.benjamin.roadmapp.application;
+package com.benjamin.roadmapp.application.api;
 
 import com.benjamin.roadmapp.application.dto.RoadMapKnowledgeUpdatedDTO;
 

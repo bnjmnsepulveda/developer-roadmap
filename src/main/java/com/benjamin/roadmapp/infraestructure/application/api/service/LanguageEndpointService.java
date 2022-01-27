@@ -1,7 +1,7 @@
 package com.benjamin.roadmapp.infraestructure.application.api.service;
 
-import com.benjamin.roadmapp.application.AddLanguage;
-import com.benjamin.roadmapp.application.FindLanguages;
+import com.benjamin.roadmapp.application.api.AddLanguage;
+import com.benjamin.roadmapp.application.api.FindLanguages;
 import com.benjamin.roadmapp.application.dto.CreateLanguageDTO;
 import com.benjamin.roadmapp.application.dto.LanguageDTO;
 import com.benjamin.roadmapp.domain.entity.Language;
