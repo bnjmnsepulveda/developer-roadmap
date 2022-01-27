@@ -6,6 +6,7 @@ import com.benjamin.roadmapp.domain.ports.outgoing.GenerateUniqueID;
 import com.benjamin.roadmapp.domain.service.KnowledgeService;
 import com.benjamin.roadmapp.domain.service.LanguageService;
 import com.benjamin.roadmapp.domain.service.RoadMapService;
+import com.benjamin.roadmapp.infraestructure.application.api.service.RoadMapEndpointService;
 import com.benjamin.roadmapp.infraestructure.application.objectmother.KnowledgeObjectMother;
 import com.benjamin.roadmapp.infraestructure.application.objectmother.LanguageObjectMother;
 import com.benjamin.roadmapp.utils.UnitTestBase;
@@ -33,7 +34,7 @@ class RoadMapApplicationServiceTest extends UnitTestBase {
     @Test
     void createTest() {
         when(roadMapService.create(Mockito.any())).thenReturn(buildEntity("1", "backend","apis rest and business logic"));
-        var app = RoadMapEndpoint.builder()
+        var app = RoadMapEndpointService.builder()
                 .roadMapService(roadMapService)
                 .generateUniqueID(generateUniqueID)
                 .build();
@@ -53,7 +54,7 @@ class RoadMapApplicationServiceTest extends UnitTestBase {
                         buildEntity("2","frontend","front")
                 )
         );
-        var app = RoadMapEndpoint.builder()
+        var app = RoadMapEndpointService.builder()
                 .roadMapService(roadMapService)
                 .build();
         var result = app.findAll();
@@ -77,7 +78,7 @@ class RoadMapApplicationServiceTest extends UnitTestBase {
 
         when(roadMapService.update(entity)).thenReturn(entityUpdated);
 
-        var app = RoadMapEndpoint.builder()
+        var app = RoadMapEndpointService.builder()
                 .roadMapService(roadMapService)
                 .languageService(languageService)
                 .build();
@@ -107,7 +108,7 @@ class RoadMapApplicationServiceTest extends UnitTestBase {
 
         when(roadMapService.update(entity)).thenReturn(entityUpdated);
 
-        var app = RoadMapEndpoint.builder()
+        var app = RoadMapEndpointService.builder()
                 .roadMapService(roadMapService)
                 .knowledgeService(knowledgeService)
                 .build();

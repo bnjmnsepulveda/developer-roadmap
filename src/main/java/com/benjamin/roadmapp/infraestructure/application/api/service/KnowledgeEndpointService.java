@@ -1,4 +1,4 @@
-package com.benjamin.roadmapp.infraestructure.application;
+package com.benjamin.roadmapp.infraestructure.application.api.service;
 
 import com.benjamin.roadmapp.application.AddKnowledge;
 import com.benjamin.roadmapp.application.FindKnowledge;
@@ -7,6 +7,7 @@ import com.benjamin.roadmapp.application.dto.KnowledgeDTO;
 import com.benjamin.roadmapp.domain.entity.Knowledge;
 import com.benjamin.roadmapp.domain.ports.outgoing.GenerateUniqueID;
 import com.benjamin.roadmapp.domain.service.KnowledgeService;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,8 @@ import java.util.stream.Collectors;
 
 @Service
 @Builder
-public class KnowledgeEndpoint implements AddKnowledge, FindKnowledge {
+@AllArgsConstructor
+public class KnowledgeEndpointService implements AddKnowledge, FindKnowledge {
 
     @Autowired
     private KnowledgeService service;

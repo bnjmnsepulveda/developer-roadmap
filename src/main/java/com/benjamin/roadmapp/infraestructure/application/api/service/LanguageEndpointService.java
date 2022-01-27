@@ -1,4 +1,4 @@
-package com.benjamin.roadmapp.infraestructure.application;
+package com.benjamin.roadmapp.infraestructure.application.api.service;
 
 import com.benjamin.roadmapp.application.AddLanguage;
 import com.benjamin.roadmapp.application.FindLanguages;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
-public class LanguageEndpoint implements AddLanguage, FindLanguages {
+public class LanguageEndpointService implements AddLanguage, FindLanguages {
 
     @Autowired
     private LanguageService service;

@@ -1,4 +1,4 @@
-package com.benjamin.roadmapp.infraestructure.application;
+package com.benjamin.roadmapp.infraestructure.application.api.service;
 
 import com.benjamin.roadmapp.application.AddRoadMap;
 import com.benjamin.roadmapp.application.FindRoadMap;
@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Builder
-public class RoadMapEndpoint implements AddRoadMap, FindRoadMap, UpdateRoadMapKnowledge, UpdateRoadMapLanguage {
+public class RoadMapEndpointService implements AddRoadMap, FindRoadMap, UpdateRoadMapKnowledge, UpdateRoadMapLanguage {
 
     @Autowired
     private RoadMapService roadMapService;

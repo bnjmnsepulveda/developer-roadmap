@@ -3,6 +3,7 @@ package com.benjamin.roadmapp.infraestructure.application;
 import com.benjamin.roadmapp.application.dto.CreateKnowledgeDTO;
 import com.benjamin.roadmapp.domain.ports.outgoing.GenerateUniqueID;
 import com.benjamin.roadmapp.domain.service.KnowledgeService;
+import com.benjamin.roadmapp.infraestructure.application.api.service.KnowledgeEndpointService;
 import com.benjamin.roadmapp.utils.UnitTestBase;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -13,7 +14,7 @@ import static com.benjamin.roadmapp.infraestructure.application.objectmother.Kno
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-class KnowledgeEndpointTest extends UnitTestBase {
+class KnowledgeEndpointServiceTest extends UnitTestBase {
 
     @Mock
     KnowledgeService service;
@@ -26,7 +27,7 @@ class KnowledgeEndpointTest extends UnitTestBase {
                 .thenReturn(buildKnowledge("1","java"));
         when(generateUniqueID.handle())
                 .thenReturn("unique-id");
-        var app = new KnowledgeEndpoint(service, generateUniqueID);
+        var app = new KnowledgeEndpointService(service, generateUniqueID);
 
         var result = app.create(new CreateKnowledgeDTO("java"));
         assertThat(result.getName()).isEqualTo("java");
@@ -42,7 +43,7 @@ class KnowledgeEndpointTest extends UnitTestBase {
                 buildKnowledge("2","browser")
         ));
 
-        var app = new KnowledgeEndpoint(service, generateUniqueID);
+        var app = new KnowledgeEndpointService(service, generateUniqueID);
         var result =  app.findAll();
         assertThat(result.size()).isEqualTo(2);
 

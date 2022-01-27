@@ -5,6 +5,7 @@ import com.benjamin.roadmapp.application.FindLanguages;
 import com.benjamin.roadmapp.application.dto.CreateLanguageDTO;
 import com.benjamin.roadmapp.domain.ports.outgoing.GenerateUniqueID;
 import com.benjamin.roadmapp.domain.service.LanguageService;
+import com.benjamin.roadmapp.infraestructure.application.api.service.LanguageEndpointService;
 import com.benjamin.roadmapp.utils.UnitTestBase;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -16,7 +17,7 @@ import static com.benjamin.roadmapp.infraestructure.application.objectmother.Lan
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-class LanguageEndpointTest extends UnitTestBase {
+class LanguageEndpointServiceTest extends UnitTestBase {
 
     @Mock
     LanguageService service;
@@ -26,7 +27,7 @@ class LanguageEndpointTest extends UnitTestBase {
     @Test
     void createTest() {
         when(service.create(Mockito.any())).thenReturn(buildLanguage("1", "java","safe typing", "streams API"));
-        AddLanguage app = new LanguageEndpoint(service, generateUniqueID);
+        AddLanguage app = new LanguageEndpointService(service, generateUniqueID);
         var result = app.create(CreateLanguageDTO.builder()
                         .name("java")
                 .build());
@@ -41,7 +42,7 @@ class LanguageEndpointTest extends UnitTestBase {
                 buildLanguage("2","python","dynamic typing")
         ));
 
-        FindLanguages app = new LanguageEndpoint(service, null);
+        FindLanguages app = new LanguageEndpointService(service, null);
         var result =  app.findAll();
         assertThat(result.size()).isEqualTo(2);
     }
