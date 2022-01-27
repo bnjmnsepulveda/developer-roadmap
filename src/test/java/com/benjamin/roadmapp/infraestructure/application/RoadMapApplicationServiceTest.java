@@ -2,6 +2,7 @@ package com.benjamin.roadmapp.infraestructure.application;
 
 import com.benjamin.roadmapp.application.dto.CreateRoadMapDTO;
 import com.benjamin.roadmapp.domain.entity.RoadMap;
+import com.benjamin.roadmapp.domain.ports.outgoing.GenerateUniqueID;
 import com.benjamin.roadmapp.domain.service.KnowledgeService;
 import com.benjamin.roadmapp.domain.service.LanguageService;
 import com.benjamin.roadmapp.domain.service.RoadMapService;
@@ -18,7 +19,7 @@ import java.util.Arrays;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-class RoadMapEndpointTest extends UnitTestBase {
+class RoadMapApplicationServiceTest extends UnitTestBase {
 
     @Mock
     RoadMapService roadMapService;
@@ -26,12 +27,15 @@ class RoadMapEndpointTest extends UnitTestBase {
     KnowledgeService knowledgeService;
     @Mock
     LanguageService languageService;
+    @Mock
+    GenerateUniqueID generateUniqueID;
 
     @Test
     void createTest() {
         when(roadMapService.create(Mockito.any())).thenReturn(buildEntity("1", "backend","apis rest and business logic"));
-        var app = RoadMapEndpointApplication.builder()
+        var app = RoadMapEndpoint.builder()
                 .roadMapService(roadMapService)
+                .generateUniqueID(generateUniqueID)
                 .build();
         var result = app.create(CreateRoadMapDTO.builder()
                         .name("backend")
@@ -49,7 +53,7 @@ class RoadMapEndpointTest extends UnitTestBase {
                         buildEntity("2","frontend","front")
                 )
         );
-        var app = RoadMapEndpointApplication.builder()
+        var app = RoadMapEndpoint.builder()
                 .roadMapService(roadMapService)
                 .build();
         var result = app.findAll();
@@ -73,7 +77,7 @@ class RoadMapEndpointTest extends UnitTestBase {
 
         when(roadMapService.update(entity)).thenReturn(entityUpdated);
 
-        var app = RoadMapEndpointApplication.builder()
+        var app = RoadMapEndpoint.builder()
                 .roadMapService(roadMapService)
                 .languageService(languageService)
                 .build();
@@ -103,7 +107,7 @@ class RoadMapEndpointTest extends UnitTestBase {
 
         when(roadMapService.update(entity)).thenReturn(entityUpdated);
 
-        var app = RoadMapEndpointApplication.builder()
+        var app = RoadMapEndpoint.builder()
                 .roadMapService(roadMapService)
                 .knowledgeService(knowledgeService)
                 .build();

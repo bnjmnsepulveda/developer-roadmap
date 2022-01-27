@@ -1,14 +1,35 @@
 package com.benjamin.roadmapp.domain.service;
 
 import com.benjamin.roadmapp.domain.entity.RoadMap;
+import com.benjamin.roadmapp.domain.exception.RoadMapNotFoundException;
+import com.benjamin.roadmapp.domain.ports.outgoing.RoadMapRepository;
+import lombok.AllArgsConstructor;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-public interface RoadMapService {
+@AllArgsConstructor
+public class RoadMapService {
 
-    RoadMap create(RoadMap roadMap);
-    RoadMap findById(String id);
-    List<RoadMap> findAll();
-    RoadMap update(RoadMap roadMap);
+    private RoadMapRepository repository;
 
+    public RoadMap create(RoadMap roadMap) {
+        return repository.save(roadMap);
+    }
+
+    public RoadMap findById(String id) {
+       return repository
+               .findById(id)
+               .orElseThrow(() -> new RoadMapNotFoundException(id));
+    }
+
+    public List<RoadMap> findAll() {
+        return repository
+                .findAll()
+                .collect(Collectors.toList());
+    }
+
+    public RoadMap update(RoadMap roadMap) {
+        return repository.save(roadMap);
+    }
 }

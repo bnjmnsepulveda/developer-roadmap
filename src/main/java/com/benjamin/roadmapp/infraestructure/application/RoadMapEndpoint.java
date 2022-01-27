@@ -1,25 +1,26 @@
 package com.benjamin.roadmapp.infraestructure.application;
 
-import com.benjamin.roadmapp.application.RoadMapEndpoint;
+import com.benjamin.roadmapp.application.AddRoadMap;
+import com.benjamin.roadmapp.application.FindRoadMap;
+import com.benjamin.roadmapp.application.UpdateRoadMapKnowledge;
+import com.benjamin.roadmapp.application.UpdateRoadMapLanguage;
 import com.benjamin.roadmapp.application.dto.CreateRoadMapDTO;
 import com.benjamin.roadmapp.application.dto.RoadMapDTO;
 import com.benjamin.roadmapp.application.dto.RoadMapKnowledgeUpdatedDTO;
 import com.benjamin.roadmapp.application.dto.RoadMapLanguageUpdatedDTO;
 import com.benjamin.roadmapp.domain.entity.RoadMap;
+import com.benjamin.roadmapp.domain.ports.outgoing.GenerateUniqueID;
 import com.benjamin.roadmapp.domain.service.KnowledgeService;
 import com.benjamin.roadmapp.domain.service.LanguageService;
 import com.benjamin.roadmapp.domain.service.RoadMapService;
 import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Service
 @Builder
-public class RoadMapEndpointApplication implements RoadMapEndpoint {
+public class RoadMapEndpoint implements AddRoadMap, FindRoadMap, UpdateRoadMapKnowledge, UpdateRoadMapLanguage {
 
     @Autowired
     private RoadMapService roadMapService;
@@ -27,10 +28,12 @@ public class RoadMapEndpointApplication implements RoadMapEndpoint {
     private KnowledgeService knowledgeService;
     @Autowired
     private LanguageService languageService;
+    @Autowired
+    private GenerateUniqueID generateUniqueID;
 
     @Override
     public RoadMapDTO create(CreateRoadMapDTO createRoadMapDTO) {
-        var id = UUID.randomUUID().toString();
+        var id = generateUniqueID.handle();
         var newRoadmap = RoadMap.builder()
                 .id(id)
                 .name(createRoadMapDTO.getName())
@@ -73,5 +76,4 @@ public class RoadMapEndpointApplication implements RoadMapEndpoint {
                 .languages(RoadMapDTO.mapToLanguages(entityUpdated.getLanguagesToDomain()))
                 .build();
     }
-
 }

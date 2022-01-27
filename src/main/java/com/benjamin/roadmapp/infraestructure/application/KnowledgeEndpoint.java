@@ -1,28 +1,33 @@
 package com.benjamin.roadmapp.infraestructure.application;
 
-import com.benjamin.roadmapp.application.KnowledgeEndpoint;
+import com.benjamin.roadmapp.application.AddKnowledge;
+import com.benjamin.roadmapp.application.FindKnowledge;
 import com.benjamin.roadmapp.application.dto.CreateKnowledgeDTO;
 import com.benjamin.roadmapp.application.dto.KnowledgeDTO;
 import com.benjamin.roadmapp.domain.entity.Knowledge;
+import com.benjamin.roadmapp.domain.ports.outgoing.GenerateUniqueID;
 import com.benjamin.roadmapp.domain.service.KnowledgeService;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
-public class KnowledgeEndpointApplication implements KnowledgeEndpoint {
+@Service
+@Builder
+public class KnowledgeEndpoint implements AddKnowledge, FindKnowledge {
 
     @Autowired
     private KnowledgeService service;
+    @Autowired
+    private GenerateUniqueID generateUniqueID;
 
     @Override
     public KnowledgeDTO create(CreateKnowledgeDTO createKnowledge) {
-        var uuid = UUID.randomUUID().toString();
+        var id = generateUniqueID.handle();
         var newEntity = Knowledge.builder()
-                .id(uuid)
+                .id(id)
                 .name(createKnowledge.getName())
                 .build();
         var entity = service.create(newEntity);

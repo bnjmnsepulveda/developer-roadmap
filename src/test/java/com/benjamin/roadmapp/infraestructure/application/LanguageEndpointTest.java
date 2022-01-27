@@ -1,6 +1,9 @@
 package com.benjamin.roadmapp.infraestructure.application;
 
+import com.benjamin.roadmapp.application.AddLanguage;
+import com.benjamin.roadmapp.application.FindLanguages;
 import com.benjamin.roadmapp.application.dto.CreateLanguageDTO;
+import com.benjamin.roadmapp.domain.ports.outgoing.GenerateUniqueID;
 import com.benjamin.roadmapp.domain.service.LanguageService;
 import com.benjamin.roadmapp.utils.UnitTestBase;
 import org.junit.jupiter.api.Test;
@@ -17,11 +20,13 @@ class LanguageEndpointTest extends UnitTestBase {
 
     @Mock
     LanguageService service;
+    @Mock
+    GenerateUniqueID generateUniqueID;
 
     @Test
     void createTest() {
         when(service.create(Mockito.any())).thenReturn(buildLanguage("1", "java","safe typing", "streams API"));
-        var app = new LanguageEndpointApplication(service);
+        AddLanguage app = new LanguageEndpoint(service, generateUniqueID);
         var result = app.create(CreateLanguageDTO.builder()
                         .name("java")
                 .build());
@@ -36,7 +41,7 @@ class LanguageEndpointTest extends UnitTestBase {
                 buildLanguage("2","python","dynamic typing")
         ));
 
-        var app = new LanguageEndpointApplication(service);
+        FindLanguages app = new LanguageEndpoint(service, null);
         var result =  app.findAll();
         assertThat(result.size()).isEqualTo(2);
     }
