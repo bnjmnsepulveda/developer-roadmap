@@ -15,10 +15,12 @@ import com.benjamin.roadmapp.domain.service.LanguageService;
 import com.benjamin.roadmapp.domain.service.RoadMapService;
 import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 @Builder
 public class RoadMapEndpointService implements AddRoadMap, FindRoadMap, UpdateRoadMapKnowledge, UpdateRoadMapLanguage {
 
