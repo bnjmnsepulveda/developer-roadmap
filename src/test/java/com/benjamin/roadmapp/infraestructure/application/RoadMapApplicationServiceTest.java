@@ -96,8 +96,8 @@ class RoadMapApplicationServiceTest extends UnitTestBase {
 
         var entity = buildEntity("1","backend","back");
         var knowledge = Arrays.asList(
-                KnowledgeObjectMother.buildKnowledge("1","http"),
-                KnowledgeObjectMother.buildKnowledge("1","linux")
+                KnowledgeObjectMother.buildKnowledge("http"),
+                KnowledgeObjectMother.buildKnowledge("linux")
         );
 
         when(roadMapService.findById("1")).thenReturn(entity);

@@ -13,7 +13,7 @@ public class InMemoryKnowledgeRepository implements KnowledgeRepository {
 
     @Override
     public Knowledge save(Knowledge knowledge) {
-        return data.put(knowledge.getId(), knowledge);
+        return data.put(knowledge.getName(), knowledge);
     }
 
     @Override

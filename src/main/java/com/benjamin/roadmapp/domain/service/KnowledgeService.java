@@ -35,7 +35,7 @@ public class KnowledgeService implements DomainService<Knowledge> {
         return repository
                 .findAll()
                 .stream()
-                .filter(knowledge -> ids.contains(knowledge.getId()))
+                .filter(knowledge -> ids.contains(knowledge.getName()))
                 .collect(Collectors.toList());
     }
 

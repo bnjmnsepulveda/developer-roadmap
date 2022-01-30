@@ -2,16 +2,17 @@ package com.benjamin.roadmapp.infraestructure.domain.adapter;
 
 import com.benjamin.roadmapp.domain.entity.Knowledge;
 import com.benjamin.roadmapp.domain.ports.outgoing.KnowledgeRepository;
-import com.benjamin.roadmapp.infraestructure.neo4j.KnowledgeNode;
-import com.benjamin.roadmapp.infraestructure.neo4j.KnowledgeNodeRepository;
+import com.benjamin.roadmapp.infraestructure.neo4j.model.KnowledgeNode;
+import com.benjamin.roadmapp.infraestructure.neo4j.repository.KnowledgeNodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
-public class Neo4jKnowledgeRepository implements KnowledgeRepository {
+public class DomainKnowledgeRepository implements KnowledgeRepository {
 
     @Autowired
     private KnowledgeNodeRepository repository;
@@ -32,6 +33,10 @@ public class Neo4jKnowledgeRepository implements KnowledgeRepository {
 
     @Override
     public List<Knowledge> findAll() {
-        return null;
+        return repository
+                .findAll()
+                .stream()
+                .map(KnowledgeNode::toEntity)
+                .collect(Collectors.toList());
     }
 }

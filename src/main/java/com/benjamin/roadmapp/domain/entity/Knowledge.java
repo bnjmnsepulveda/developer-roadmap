@@ -9,7 +9,6 @@ import java.util.List;
 @Builder
 public class Knowledge {
 
-    private String id;
     private String name;
     private List<Knowledge> nextKnowledgeToLearn;
 

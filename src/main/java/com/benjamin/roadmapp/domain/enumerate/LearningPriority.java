@@ -1,4 +1,4 @@
-package com.benjamin.roadmapp.infraestructure.neo4j.model;
+package com.benjamin.roadmapp.domain.enumerate;
 
 public enum LearningPriority {
     REQUIRED, RECOMMENDED, OPTIONAL

@@ -8,12 +8,10 @@ import lombok.Data;
 @Builder
 public class KnowledgeDTO {
 
-    private String id;
     private String name;
 
     public static KnowledgeDTO map(Knowledge entity){
         return KnowledgeDTO.builder()
-                .id(entity.getId())
                 .name(entity.getName())
                 .build();
     }

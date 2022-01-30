@@ -1,6 +1,11 @@
 package com.benjamin.roadmapp;
 
-import com.benjamin.roadmapp.infraestructure.neo4j.*;
+import com.benjamin.roadmapp.domain.enumerate.LearningPriority;
+import com.benjamin.roadmapp.infraestructure.application.api.service.KnowledgeEndpointService;
+import com.benjamin.roadmapp.infraestructure.neo4j.model.*;
+import com.benjamin.roadmapp.infraestructure.neo4j.repository.KnowledgeNodeRepository;
+import com.benjamin.roadmapp.infraestructure.neo4j.repository.LanguageNodeRepository;
+import com.benjamin.roadmapp.infraestructure.neo4j.repository.RoadMapNeo4jRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,6 +25,8 @@ public class App {
     LanguageNodeRepository languageNodeRepository;
     @Autowired
     RoadMapNeo4jRepository roadMapNeo4jRepository;
+    @Autowired
+    KnowledgeEndpointService knowledgeEndpointService;
 
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);
@@ -27,6 +34,8 @@ public class App {
 
     @EventListener(ApplicationReadyEvent.class)
     public void ready(ApplicationReadyEvent e) {
+
+        /*
         // save knowledge
         var webKnowledge = build("web");
         webKnowledge.setNextToLearn(
@@ -61,9 +70,42 @@ public class App {
         var frontRoadmap = build("frontend", "Web and user interface development", Arrays.asList(webKnowledge, uiKnowledge), Arrays.asList(javascriptLanguage));
         roadMapNeo4jRepository.save(frontRoadmap);
 
+*/
+
+        var database = build("database");
+
+        var sql = build("sql");
+        var noSql = build("no-sql");
+
+        var relSql = NextToLearnRelationship.builder()
+                .learningGoals(Arrays.asList(
+                        "persistence data",
+                        "modeling business data"
+                ))
+                .knowledgeNode(sql)
+                .priority(LearningPriority.REQUIRED)
+                .build();
+
+        var relNoSql = NextToLearnRelationship.builder()
+                .learningGoals(Arrays.asList(
+                        "persistence data",
+                        "structured data alternatives"
+                ))
+                .knowledgeNode(noSql)
+                .priority(LearningPriority.RECOMMENDED)
+                .build();
+
+        database.setNextToLearn(Arrays.asList(relSql, relNoSql));
+
+        knowledgeNodeRepository.save(database);
+
+        knowledgeEndpointService
+                .findAll()
+                .forEach(System.out::println);
+
     }
 
-    RoadMapNode build(String name,String description, List<KnowledgeNode> knowledgeToLearn, List<LanguageNode> languageToDomain){
+    RoadMapNode build(String name, String description, List<KnowledgeNode> knowledgeToLearn, List<LanguageNode> languageToDomain){
         return RoadMapNode.builder()
                 .name(name)
                 .description(description)

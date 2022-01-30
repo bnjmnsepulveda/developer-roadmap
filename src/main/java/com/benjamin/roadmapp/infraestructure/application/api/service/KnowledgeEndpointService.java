@@ -5,7 +5,6 @@ import com.benjamin.roadmapp.application.api.FindKnowledge;
 import com.benjamin.roadmapp.application.dto.CreateKnowledgeDTO;
 import com.benjamin.roadmapp.application.dto.KnowledgeDTO;
 import com.benjamin.roadmapp.domain.entity.Knowledge;
-import com.benjamin.roadmapp.domain.ports.outgoing.GenerateUniqueID;
 import com.benjamin.roadmapp.domain.service.KnowledgeService;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,14 +21,10 @@ public class KnowledgeEndpointService implements AddKnowledge, FindKnowledge {
 
     @Autowired
     private KnowledgeService service;
-    @Autowired
-    private GenerateUniqueID generateUniqueID;
 
     @Override
     public KnowledgeDTO create(CreateKnowledgeDTO createKnowledge) {
-        var id = generateUniqueID.handle();
         var newEntity = Knowledge.builder()
-                .id(id)
                 .name(createKnowledge.getName())
                 .build();
         var entity = service.create(newEntity);

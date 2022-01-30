@@ -1,5 +1,7 @@
 package com.benjamin.roadmapp.infraestructure.neo4j.model;
 
+import com.benjamin.roadmapp.domain.entity.Knowledge;
+import com.benjamin.roadmapp.domain.enumerate.LearningPriority;
 import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
@@ -24,4 +26,11 @@ public class NextToLearnRelationship {
     @TargetNode
     private KnowledgeNode knowledgeNode;
 
+    public static NextToLearnRelationship map(Knowledge e, KnowledgeNode targetNode) {
+
+        return NextToLearnRelationship.builder()
+                .knowledgeNode(targetNode)
+                .build();
+
+    }
 }

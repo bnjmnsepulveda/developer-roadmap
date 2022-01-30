@@ -25,48 +25,33 @@ public class KnowledgeNode {
 
     public static KnowledgeNode map(Knowledge entity) {
 
-        Function<Knowledge, KnowledgeNode> basicNode = (Knowledge k) -> KnowledgeNode.builder()
-                .name(k.getName())
+        return KnowledgeNode.builder()
+                .name(entity.getName())
                 .build();
-
-        var node = basicNode.apply(entity);
-
-        if (entity.getNextKnowledgeToLearn() == null) {
-            return node;
-        }
-
-        var nextToLearnNodes = entity
-                .getNextKnowledgeToLearn()
-                .stream()
-                .map(basicNode)
-                .collect(Collectors.toList());
-
-        //node.setNextToLearn(nextToLearnNodes);
-        return node;
 
     }
 
     public static Knowledge toEntity(KnowledgeNode node) {
 
         Function<KnowledgeNode, Knowledge> buildEntity = (KnowledgeNode n) -> Knowledge.builder()
-                .id(n.name)
                 .name(n.name)
                 .build();
 
         var entity = buildEntity.apply(node);
-        return entity;
-       /* if (node.getNextToLearn() == null) {
+
+        if (node.getNextToLearn() == null) {
             return entity;
         }
 
         var nextToLearn = node
                 .getNextToLearn()
                 .stream()
-                .map(buildEntity)
+                .map(NextToLearnRelationship::getKnowledgeNode)
+                .map(KnowledgeNode::toEntity)
                 .collect(Collectors.toList());
 
         entity.setNextKnowledgeToLearn(nextToLearn);
-        return entity;*/
+        return entity;
 
     }
 
