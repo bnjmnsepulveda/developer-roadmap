@@ -1,4 +1,4 @@
-package com.benjamin.roadmapp.infraestructure.neo4j;
+package com.benjamin.roadmapp.infraestructure.neo4j.model;
 
 import lombok.Builder;
 import lombok.Data;

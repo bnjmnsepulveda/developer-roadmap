@@ -1,4 +1,4 @@
-package com.benjamin.roadmapp.infraestructure.neo4j;
+package com.benjamin.roadmapp.infraestructure.neo4j.model;
 
 import com.benjamin.roadmapp.domain.entity.Knowledge;
 import lombok.Builder;
@@ -21,7 +21,7 @@ public class KnowledgeNode {
     @Id
     private String name;
     @Relationship(type = "NEXT_TO_LEARN")
-    private List<KnowledgeNode> nextToLearn;
+    private List<NextToLearnRelationship> nextToLearn;
 
     public static KnowledgeNode map(Knowledge entity) {
 
@@ -41,7 +41,7 @@ public class KnowledgeNode {
                 .map(basicNode)
                 .collect(Collectors.toList());
 
-        node.setNextToLearn(nextToLearnNodes);
+        //node.setNextToLearn(nextToLearnNodes);
         return node;
 
     }
@@ -54,8 +54,8 @@ public class KnowledgeNode {
                 .build();
 
         var entity = buildEntity.apply(node);
-
-        if (node.getNextToLearn() == null) {
+        return entity;
+       /* if (node.getNextToLearn() == null) {
             return entity;
         }
 
@@ -66,7 +66,7 @@ public class KnowledgeNode {
                 .collect(Collectors.toList());
 
         entity.setNextKnowledgeToLearn(nextToLearn);
-        return entity;
+        return entity;*/
 
     }
 
