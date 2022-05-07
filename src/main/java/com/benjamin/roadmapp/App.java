@@ -1,10 +1,14 @@
 package com.benjamin.roadmapp;
 
+import com.benjamin.roadmapp.application.dto.*;
+import com.benjamin.roadmapp.domain.entity.RoadMap;
 import com.benjamin.roadmapp.domain.enumerate.LearningPriority;
 import com.benjamin.roadmapp.infraestructure.application.api.service.KnowledgeEndpointService;
+import com.benjamin.roadmapp.infraestructure.application.api.service.LanguageEndpointService;
+import com.benjamin.roadmapp.infraestructure.application.api.service.RoadmapEndpointService;
 import com.benjamin.roadmapp.infraestructure.neo4j.model.*;
-import com.benjamin.roadmapp.infraestructure.neo4j.repository.KnowledgeNodeRepository;
-import com.benjamin.roadmapp.infraestructure.neo4j.repository.LanguageNodeRepository;
+import com.benjamin.roadmapp.infraestructure.neo4j.repository.KnowledgeNeo4jRepository;
+import com.benjamin.roadmapp.infraestructure.neo4j.repository.LanguageNeo4jRepository;
 import com.benjamin.roadmapp.infraestructure.neo4j.repository.RoadMapNeo4jRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -14,19 +18,25 @@ import org.springframework.context.event.EventListener;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @SpringBootApplication
 public class App {
 
 
     @Autowired
-    KnowledgeNodeRepository knowledgeNodeRepository;
+    KnowledgeNeo4jRepository knowledgeNeo4jRepository;
     @Autowired
-    LanguageNodeRepository languageNodeRepository;
+    LanguageNeo4jRepository languageNeo4jRepository;
     @Autowired
     RoadMapNeo4jRepository roadMapNeo4jRepository;
     @Autowired
     KnowledgeEndpointService knowledgeEndpointService;
+    @Autowired
+    LanguageEndpointService languageEndpointService;
+    @Autowired
+    RoadmapEndpointService roadMapEndpointService;
+
 
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);
@@ -72,6 +82,11 @@ public class App {
 
 */
 
+
+        languageNeo4jRepository.deleteAll();
+        knowledgeNeo4jRepository.deleteAll();
+        roadMapNeo4jRepository.deleteAll();
+
         var database = build("database");
 
         var sql = build("sql");
@@ -96,12 +111,62 @@ public class App {
                 .build();
 
         database.setNextToLearn(Arrays.asList(relSql, relNoSql));
+        knowledgeNeo4jRepository.save(database);
 
-        knowledgeNodeRepository.save(database);
+        var backRoadmap = RoadMapNode.builder()
+                .id("be")
+                .name("backend")
+                .description("server side implementation")
+                .build();
+        roadMapNeo4jRepository.save(backRoadmap);
 
-        knowledgeEndpointService
+        var updated = roadMapEndpointService.addKnowledge(AddKnowledgeToRoadMapDTO.builder()
+                        .knowledgeId("database")
+                        .roadMapId("be")
+                        .learningGoals(Arrays.asList("store data applications is required"))
+                        .priority(LearningPriority.REQUIRED)
+                .build());
+        System.out.println("knowledge updated=" + updated);
+
+
+        var batch = new CreateKnowledgeDTO("apache spark");
+        knowledgeEndpointService.create(batch);
+
+        languageEndpointService.create(CreateLanguageDTO.builder()
+                .name("scala")
+                .properties(Arrays.asList("JVM compatible", "scripting"))
+                .build());
+        languageEndpointService.create(CreateLanguageDTO.builder()
+                .name("java")
+                .properties(Arrays.asList("safe type", "blocking thread"))
+                .build());
+        languageEndpointService.create(CreateLanguageDTO.builder()
+                .name("python")
+                .properties(Arrays.asList("dynamic type", "scripting" ,"FP", "POO"))
+                .build());
+        languageEndpointService.findAll().forEach(System.out::println);
+        var languagesID = languageEndpointService.findAll().stream().map(LanguageDTO::getId).collect(Collectors.toList());
+
+
+        var backend = roadMapEndpointService.create(CreateRoadMapDTO.builder()
+                .name("backend")
+                .description("server implementation for business logic")
+                .build());
+
+        roadMapEndpointService.create(CreateRoadMapDTO.builder()
+                .name("frontend")
+                .description("user interfaces for web or mobile applications")
+                .build());
+
+        roadMapEndpointService.updateLanguages(backend.getId(), languagesID);
+        roadMapEndpointService.findAll().forEach(System.out::println);
+
+
+
+
+        /*knowledgeEndpointService
                 .findAll()
-                .forEach(System.out::println);
+                .forEach(System.out::println);*/
 
     }
 
@@ -109,7 +174,7 @@ public class App {
         return RoadMapNode.builder()
                 .name(name)
                 .description(description)
-                .knowledgeToLearn(knowledgeToLearn)
+              //  .knowledgeToLearn(knowledgeToLearn)
                 .languagesToDomain(languageToDomain)
                 .build();
     }

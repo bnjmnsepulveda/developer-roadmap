@@ -11,7 +11,7 @@
 	<groupId>com.benjamin</groupId>
 	<artifactId>developer-factory-roadmapp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>developer-factory-roadmap</name>
+	<name>developer-roadmap</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>

@@ -25,11 +25,10 @@ public class LanguageEndpointService implements AddLanguage, FindLanguages {
 
     @Override
     public LanguageDTO create(CreateLanguageDTO createLanguageDTO) {
-        var id = generateUniqueID.handle();
         var newLanguage = Language.builder()
+                .id(generateUniqueID.handle())
                 .properties(createLanguageDTO.getProperties())
                 .name(createLanguageDTO.getName())
-                .id(id)
                 .build();
         var entity = service.create(newLanguage);
         return LanguageDTO.map(entity);

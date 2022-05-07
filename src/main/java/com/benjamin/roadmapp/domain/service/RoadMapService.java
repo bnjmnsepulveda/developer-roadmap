@@ -1,6 +1,7 @@
 package com.benjamin.roadmapp.domain.service;
 
 import com.benjamin.roadmapp.domain.entity.RoadMap;
+import com.benjamin.roadmapp.domain.exception.RoadMapAlreadyExistsException;
 import com.benjamin.roadmapp.domain.exception.RoadMapNotFoundException;
 import com.benjamin.roadmapp.domain.ports.incoming.DomainService;
 import com.benjamin.roadmapp.domain.ports.outgoing.RoadMapRepository;
@@ -16,6 +17,10 @@ public class RoadMapService implements DomainService<RoadMap> {
 
     @Override
     public RoadMap create(RoadMap roadMap) {
+        var entityFound = repository.findById(roadMap.getId());
+        if (entityFound.isPresent()){
+            throw new RoadMapAlreadyExistsException(roadMap.getName());
+        }
         return repository.save(roadMap);
     }
 
@@ -36,4 +41,5 @@ public class RoadMapService implements DomainService<RoadMap> {
     public RoadMap update(RoadMap roadMap) {
         return repository.save(roadMap);
     }
+
 }

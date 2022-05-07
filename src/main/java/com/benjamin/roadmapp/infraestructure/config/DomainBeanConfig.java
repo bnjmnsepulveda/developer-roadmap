@@ -28,7 +28,6 @@ public class DomainBeanConfig {
     public KnowledgeService getKnowledgeService(){
         return new KnowledgeService(knowledgeRepository);
     }
-
     @Bean
     public RoadMapService getRoadMapService() {
         return new RoadMapService(roadMapRepository);

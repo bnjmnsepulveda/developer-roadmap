@@ -3,7 +3,7 @@ package com.benjamin.roadmapp.infraestructure.domain.adapter;
 import com.benjamin.roadmapp.domain.entity.Knowledge;
 import com.benjamin.roadmapp.domain.ports.outgoing.KnowledgeRepository;
 import com.benjamin.roadmapp.infraestructure.neo4j.model.KnowledgeNode;
-import com.benjamin.roadmapp.infraestructure.neo4j.repository.KnowledgeNodeRepository;
+import com.benjamin.roadmapp.infraestructure.neo4j.repository.KnowledgeNeo4jRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -12,10 +12,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
-public class DomainKnowledgeRepository implements KnowledgeRepository {
+public class KnowledgeNeo4jService implements KnowledgeRepository {
 
     @Autowired
-    private KnowledgeNodeRepository repository;
+    private KnowledgeNeo4jRepository repository;
 
     @Override
     public Knowledge save(Knowledge knowledge) {
