@@ -32,3 +32,9 @@ build/
 ### VS Code ###
 .vscode/
 .mvn/
+
+docker/conf/*
+docker/data/*
+docker/import/*
+docker/logs/*
+docker/plugins/*
